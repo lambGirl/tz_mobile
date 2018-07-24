@@ -1,0 +1,65 @@
+@import '../style/mixins';
+@import '../style/themes/default';
+
+@navbar-height: 45*@hd;
+@navbarPrefixCls: am-navbar;
+
+.@{navbarPrefixCls} {
+  display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+  display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+  display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+  display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+  display: -ms-flexbox;   /* 混合版本语法: IE 10 */
+  align-items: center;
+  height: @navbar-height;
+  background-color: @brand-primary;
+  color: @fill-base;
+
+  &-left,
+  &-title,
+  &-right {
+    -webkit-flex: 1;        /* Chrome */
+    -ms-flex: 1 ;           /* IE 10 */
+    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    -webkit-box-flex: 1;     /* OLD - iOS 6-, Safari 3.1-6 */
+    -moz-box-flex: 1;       /* OLD - Firefox 19- */
+    height: 100%;
+    display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;   /* 混合版本语法: IE 10 */
+    align-items: center;
+  }
+
+  &-left {
+    padding-left: @h-spacing-lg;
+    font-size: @link-button-font-size;
+
+    &-icon {
+      margin-right: @h-spacing-sm;
+      display: inherit;
+    }
+  }
+
+  &-title {
+    justify-content: center;
+    font-size: 18 * @hd;
+    white-space: nowrap;
+  }
+
+  &-right {
+    justify-content: flex-end;
+    font-size: @link-button-font-size;
+    margin-right: @h-spacing-lg;
+  }
+
+  &-light {
+    background-color: @fill-base;
+    color: @brand-primary;
+  }
+
+  &-light &-title {
+    color: @color-text-base;
+  }
+}
