@@ -3,7 +3,7 @@ import './common/rely.js';
 import SelfYear from './common/Class.js';
 import Scroll from "../common/easyscroll"
 import classNames from 'classnames'
-import './date.less'
+import Styles from  './date.less'
 class DH extends Component {
     static defaultProps = {
         title:'日期选择器Dome',
@@ -34,7 +34,9 @@ class DH extends Component {
         ],
         DateChange:null,
         chooseNumber:4,
-        type:'more'
+        type:'more',
+        model: 'common' //统一的样式 jpmp: 景区门票
+
     }
 
     constructor(props){
@@ -48,7 +50,7 @@ class DH extends Component {
     }
 
     componentWillMount(){
-      //  console.log("props", this.props.holidays);
+        //  console.log("props", this.props.holidays);
         let {FullYear,Month,date} = new Date().getLoactionTime();
         this.setState({
             activeDate:this.props.defaultDate
@@ -85,13 +87,13 @@ class DH extends Component {
             show_date += parseInt(MONTH_DATE[(Month + show_Month - 1) % 12]);
             show_Month++;
         }
-       // console.log("show_Month",show_Month);
-       // 构造年月
+        // console.log("show_Month",show_Month);
+        // 构造年月
         let tepMnth = [];
         for(let j = 0; j < show_Month; j++) {
             tepMnth.push(new SelfYear((FullYear + ((Month + j)%12==0?((Month + j)/12-1):Math.floor((Month + j) / 12))),(Month + j) % 12 == 0 ? 12 : (Month + j) % 12,limitDate));
         }
-        //console.log(tepMnth,"tepMnth-89-/*/65454")
+        // console.log(tepMnth)
         return tepMnth;
     }
 
@@ -102,15 +104,15 @@ class DH extends Component {
         }
         return (
             <Scroll height={this.props.scrollHeight||"94%"}>
-                <div className="DH-month-main">
-                   {
+                <div className={Styles["DH-month-main"]}>
+                    {
                         monthArr.map((item,index) =>{
                             //console.log("monthArr",monthArr);
                             let str = `${item.FullYear}年${item.Month < 9 ? '0' + item.Month : item.Month}月`
                             return (
-                                <div className="DH-month" key={index + "_/*"}>
-                                    <div className={new Date().getLoactionTime()["FullYear"]==item.FullYear&&item.Month==new Date().getLoactionTime()["Month"]?`DH-month-title`:`DH-month-title color3E3E3E`}>{str}</div>
-                                 {this.renderDate(item,index)}
+                                <div className={Styles["DH-month"]} key={index + "_/*"}>
+                                    <div className={new Date().getLoactionTime()["FullYear"]==item.FullYear&&item.Month==new Date().getLoactionTime()["Month"]?Styles[`DH-month-title`]:classNames(Styles[`DH-month-title`],Styles[`color3E3E3E`])}>{str}</div>
+                                    {this.renderDate(item,index)}
                                 </div>
                             )
                         })
@@ -133,9 +135,10 @@ class DH extends Component {
 
     /*渲染日期*/
     renderDate(item,index){
-        let {FullYear,Month} = item, _this =  this;
+        let {FullYear,Month} = item, _this =  this,
+            { model } =  this.props;
         return (
-            <div className="DH-month-date">
+            <div className={Styles["DH-month-date"]}>
                 {
                     item.week.map((n,wekkindex) =>{
                         return (<div key={wekkindex.toString() + '_data'}></div>)
@@ -143,23 +146,29 @@ class DH extends Component {
                 }
                 {
                     item.date.map((day,daIndex) =>{
+
                             let ClassStr,
                                 dataStr = `${FullYear}-${Month < 10 ? ('0' + Month) : Month}-${day.date < 10 ? '0' + day.date : day.date}`,
-                                allow = day.allow,
+                                // allow = day.allow,
                                 classActiveStr = ""
                             ;
-                            allow && ( ClassStr = 'DH-month-date-allow');
-                            this._algorithm(dataStr) && allow && (classActiveStr = ' DH-active-date');
-                            let _BreakData = this._BreakData(dataStr);
-
+                            //allow && ( ClassStr = 'DH-month-date-allow');
+                            let _BreakData = this._BreakData(dataStr),allow = _BreakData.playContent;
+                            // console.log("day", _BreakData);
+                            allow&& ( ClassStr = 'DH-month-date-allow');
+                            this._algorithm(dataStr) && allow && (classActiveStr = 'DH-active-date');
+                            // console.log("-------------day----------",model != 'common');
                             return (
-                                <div className={ClassStr} key={daIndex + '_day*/'}
+                                <div className={classNames(Styles[ClassStr],{
+                                    [Styles[`${model}`]]: model != 'common'
+                                })} key={daIndex + '_day*/'}
                                      onClick={allow ? _this.props.type=="common"&&this.toggleDate.bind(this,dataStr)||this.chooseSingle.bind(this, dataStr) : null}>
-                                    <div className={classActiveStr}>
+                                    <div className={classNames(Styles[classActiveStr])}>
                                         {/*{day.tip && <div className="tip" >{day.tip}</div>||_BreakData.rest && <div className="tip">{_BreakData.playContent}</div>||null}*/}
-                                        <div className="tip">{_BreakData.playContent}</div>
-                                        {dataStr == new Date().format("yyyy-MM-dd")?<span className="cn_fontSize">今天</span>:<span className="en_fontSize">{day.date}</span>}
+
+                                        {dataStr == new Date().format("yyyy-MM-dd")?<span className={Styles["cn_fontSize"]}>今天</span>:<span className={Styles["en_fontSize"]}>{day.date}</span>}
                                         {/*{this._BreakData(dataStr).tip && <div className="tip">{this._BreakData(dataStr).tip}</div>}*/}
+                                        <div className={Styles["tip"]}>{_BreakData.playContent}</div>
                                     </div>
                                 </div>
                             )
@@ -216,9 +225,9 @@ class DH extends Component {
     //改变今天明天的显示文字
     _changeText(holiday){
         let _special = Date.specialDate;
-       // console.log(Date.specialDate,"outer/*8*")
+        // console.log(Date.specialDate,"outer/*8*")
         for(let i = 0,len = _special.length; i < len; i++) {
-          //  console.log(_special[i])
+            //  console.log(_special[i])
             if (_special[i].date == holiday.date){
                 Date.specialDate[i].text = holiday.name; //holiday.name;
             }
@@ -258,22 +267,22 @@ class DH extends Component {
         let {title} = this.props;
         let {week,monthArr} = this.state;
         return (
-            <div className={classNames("DH-main",this.props.defineClass)}>
+            <div className={classNames(Styles["DH-main"],Styles[this.props.defineClass])}>
                 {/*<div className="DH-title">{title}</div>*/}
                 {this.props.Header}
-                <div className="content">
-                    <div className="DH-week">
+                <div className={Styles["content"]}>
+                    <div className={Styles["DH-week"]}>
                         {
                             week.map((item,index) =>{
                                 return (
-                                    <div key={item.toString()} className={`DH-week-item ${index=="0"||index=="6"?` colorFC5151`:''}`}>{item}</div>
+                                    <div key={item.toString()} className={Styles[`DH-week-item ${index=="0"||index=="6"?` colorFC5151`:''}`]}>{item}</div>
                                 )
                             })
                         }
                     </div>
                     {this.props.tips}
-                  {this.renderMonth(monthArr)}
-              </div>
+                    {this.renderMonth(monthArr)}
+                </div>
             </div>
         )
     }

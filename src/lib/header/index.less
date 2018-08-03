@@ -3,6 +3,7 @@
 
 @navbar-height: 45*@hd;
 @navbarPrefixCls: am-navbar;
+@navbarPrefixClsAbolute: am-absolute;
 
 .@{navbarPrefixCls} {
   display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
@@ -54,6 +55,57 @@
     margin-right: @h-spacing-lg;
   }
 
+  &-light {
+    background-color: @fill-base;
+    color: @brand-primary;
+  }
+
+  &-light &-title {
+    color: @color-text-base;
+  }
+}
+
+.@{navbarPrefixClsAbolute} {
+  display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+  display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+  display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
+  display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+  display: -ms-flexbox;   /* 混合版本语法: IE 10 */
+  align-items: center;
+  height: @navbar-height;
+  background-color: @brand-primary;
+  color: @fill-base;
+
+  &-left,
+  &-title,
+  &-right {
+    display: inline-block;
+  }
+
+  &-left {
+    padding-left: @h-spacing-lg;
+    font-size: @link-button-font-size;
+    width: 14%;
+    text-align: center;
+    &-icon {
+      margin-right: @h-spacing-sm;
+      display: inherit;
+    }
+  }
+
+  &-title {
+    width: 66%;
+    text-align: center;
+    font-size: 18 * @hd;
+  }
+
+  &-right {
+    font-size: @link-button-font-size;
+    width: 20%;
+  }
+  &-transparent{
+    background: rgba(0,0,0,0,0.2);
+  }
   &-light {
     background-color: @fill-base;
     color: @brand-primary;
