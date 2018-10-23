@@ -1,7 +1,8 @@
 import React,{ Component }from 'react';
 import './common/rely.js';
 import SelfYear from './common/Class.js';
-import Scroll from "../common/easyscroll"
+/*import Scroll from "../common/easyscroll"*/
+import Scroll from './base/scroll'
 import classNames from 'classnames'
 import Styles from  './date.less'
 class DH extends Component {
@@ -149,26 +150,21 @@ class DH extends Component {
 
                             let ClassStr,
                                 dataStr = `${FullYear}-${Month < 10 ? ('0' + Month) : Month}-${day.date < 10 ? '0' + day.date : day.date}`,
-                                // allow = day.allow,
+                                allow = day.allow,
                                 classActiveStr = ""
                             ;
-                            //allow && ( ClassStr = 'DH-month-date-allow');
-                            let _BreakData = this._BreakData(dataStr),allow = _BreakData.playContent;
-                            // console.log("day", _BreakData);
-                            allow&& ( ClassStr = 'DH-month-date-allow');
+
+                            allow && ( ClassStr = 'DH-month-date-allow');
                             this._algorithm(dataStr) && allow && (classActiveStr = 'DH-active-date');
-                            // console.log("-------------day----------",model != 'common');
+                            let _BreakData = this._BreakData(dataStr);//allow = _BreakData.playContent;
                             return (
                                 <div className={classNames(Styles[ClassStr],{
-                                    [Styles[`${model}`]]: model != 'common'
                                 })} key={daIndex + '_day*/'}
                                      onClick={allow ? _this.props.type=="common"&&this.toggleDate.bind(this,dataStr)||this.chooseSingle.bind(this, dataStr) : null}>
                                     <div className={classNames(Styles[classActiveStr])}>
-                                        {/*{day.tip && <div className="tip" >{day.tip}</div>||_BreakData.rest && <div className="tip">{_BreakData.playContent}</div>||null}*/}
-
-                                        {dataStr == new Date().format("yyyy-MM-dd")?<span className={Styles["cn_fontSize"]}>今天</span>:<span className={Styles["en_fontSize"]}>{day.date}</span>}
-                                        {/*{this._BreakData(dataStr).tip && <div className="tip">{this._BreakData(dataStr).tip}</div>}*/}
                                         <div className={Styles["tip"]}>{_BreakData.playContent}</div>
+                                        {dataStr == new Date().format("yyyy-MM-dd")?<div className="cn_fontSize">今天</div>:<div className="en_fontSize">{day.date}</div>}
+                                        <div className={Styles["remark"]}>￥30</div>
                                     </div>
                                 </div>
                             )

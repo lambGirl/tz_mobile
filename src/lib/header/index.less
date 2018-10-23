@@ -1,117 +1,168 @@
-@import '../style/mixins';
-@import '../style/themes/default';
-
-@navbar-height: 45*@hd;
-@navbarPrefixCls: am-navbar;
-@navbarPrefixClsAbolute: am-absolute;
-
-.@{navbarPrefixCls} {
-  display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
-  display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
-  display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;      /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;   /* 混合版本语法: IE 10 */
-  align-items: center;
-  height: @navbar-height;
-  background-color: @brand-primary;
-  color: @fill-base;
-
-  &-left,
-  &-title,
-  &-right {
-    -webkit-flex: 1;        /* Chrome */
-    -ms-flex: 1 ;           /* IE 10 */
-    flex: 1;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
-    -webkit-box-flex: 1;     /* OLD - iOS 6-, Safari 3.1-6 */
-    -moz-box-flex: 1;       /* OLD - Firefox 19- */
-    height: 100%;
-    display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
-    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
-    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
-    display: -ms-flexbox;   /* 混合版本语法: IE 10 */
-    align-items: center;
+@import "../asset/css/var";
+//header 组件开发
+.header-parent{
+  position:relative;
+  width: 100%;
+  height: @base*90rem;
+  .common{
+    background: #0D87E4;
+  }
+  .transparent{
+    background: rgba(255,255,255,0.3);
+  }
+  .light{
+    background: #fff;
+  }
+  .none{
+    background: none;
+  }
+  .colorE6e6e6{
+    background: #e6e6e6;
   }
 
-  &-left {
-    padding-left: @h-spacing-lg;
-    font-size: @link-button-font-size;
-
-    &-icon {
-      margin-right: @h-spacing-sm;
-      display: inherit;
+  .header-common{
+   /* display: flex;*/
+    width: 100%;
+    height: 100%;
+    position:relative;
+    /*align-items: center;*/
+    .left-header{
+      position: absolute;
+      min-width: 14%;
+      /*flex:1;*/
+      box-sizing: border-box;
+     /* padding-left:@base*32rem;*/
+      height:100%;
+      left:0;
+      display: flex;
+      display:-webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index:990;
+    }
+    .center-header{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      line-height: @base*90rem;
+      box-sizing: border-box;
+    }
+    .right-header{
+      position: absolute;
+      right: 0;
+      height: 100%;
+      line-height: @base*90rem;
+      min-width: 26%;
+      text-align: right;
+      padding-right: @base*30rem;
+      box-sizing: border-box;
+      z-index:1000;
     }
   }
-
-  &-title {
-    justify-content: center;
-    font-size: 18 * @hd;
-    white-space: nowrap;
-  }
-
-  &-right {
-    justify-content: flex-end;
-    font-size: @link-button-font-size;
-    margin-right: @h-spacing-lg;
-  }
-
-  &-light {
-    background-color: @fill-base;
-    color: @brand-primary;
-  }
-
-  &-light &-title {
-    color: @color-text-base;
+  .header-Input{
+    display: flex;
+    display:-webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    .left-header{
+      min-width: 14%;
+      flex:1;
+      box-sizing: border-box;
+      /* padding-left:@base*32rem;*/
+      height:100%;
+      display: flex;
+      display:-webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .center-header{
+      min-width: 63%;
+      flex:2;
+      box-sizing: border-box;
+    }
+    .right-header{
+      min-width: 26%;
+      flex:1;
+      text-align: right;
+      padding-right: @base*30rem;
+      box-sizing: border-box;
+    }
   }
 }
 
-.@{navbarPrefixClsAbolute} {
-  display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
-  display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
-  display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;      /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;   /* 混合版本语法: IE 10 */
-  align-items: center;
-  height: @navbar-height;
-  background-color: @brand-primary;
-  color: @fill-base;
-
-  &-left,
-  &-title,
-  &-right {
-    display: inline-block;
-  }
-
-  &-left {
-    padding-left: @h-spacing-lg;
-    font-size: @link-button-font-size;
-    width: 14%;
+.positionAbolute{
+  position: absolute;
+  z-index:1;
+}
+.positionFixed{
+  position: fixed;
+  z-index:1;
+}
+//header中间的search
+.search-input{
+  height: @base*60rem;
+  line-height: @base*60rem;
+  width: 100%;
+  background: #f5f5f9;
+  border-radius: 30px;
+  padding-left: @base*24rem;
+  position:relative;
+  /*box-sizing: border-box;
+  display: flex;
+  display:-webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  justify-content: left;
+  align-items: center;*/
+  .search-icon{
+    position:absolute;
+    width:@base*32rem;
     text-align: center;
-    &-icon {
-      margin-right: @h-spacing-sm;
-      display: inherit;
+    /*font-size: @base*32rem;*/
+    color:#BFBFBF;
+    display: flex;
+    display:-webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    >.icon{
+      height: @base*32rem;
+      width: @base*32rem;
+      background: url("../asset/img/btn_search.png") no-repeat;
+      background-size: 100% 100%;
     }
+
+  }
+  input{
+    width: calc(100% - 16);
+   /* padding-left:@base*44rem;*/
+    height: @base*60rem;
+    border: none;
+    background: none;
+    color:#3E3E3E;
+    box-sizing: border-box;
+    outline:none;
+    border-radius:@base*30rem;
+    font-size:@font28;
+    padding:.55rem 0 .4rem @base*44rem;
   }
 
-  &-title {
-    width: 66%;
-    text-align: center;
-    font-size: 18 * @hd;
-  }
 
-  &-right {
-    font-size: @link-button-font-size;
-    width: 20%;
-  }
-  &-transparent{
-    background: rgba(0,0,0,0,0.2);
-  }
-  &-light {
-    background-color: @fill-base;
-    color: @brand-primary;
-  }
-
-  &-light &-title {
-    color: @color-text-base;
-  }
 }
