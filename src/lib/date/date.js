@@ -2,7 +2,7 @@ import React,{ Component }from 'react';
 import './common/rely.js';
 import SelfYear from './common/Class.js';
 /*import Scroll from "../common/easyscroll"*/
-import Scroll from './base/scroll'
+import Scroll from '../scroll/index'
 import classNames from 'classnames'
 import Styles from  './date.less'
 class DH extends Component {
@@ -36,8 +36,8 @@ class DH extends Component {
         DateChange:null,
         chooseNumber:4,
         type:'more',
-        model: 'common' //统一的样式 jpmp: 景区门票
-
+        model: 'common', //统一的样式 jpmp: 景区门票
+        sellDetail:[]
     }
 
     constructor(props){
@@ -51,13 +51,13 @@ class DH extends Component {
     }
 
     componentWillMount(){
-        //  console.log("props", this.props.holidays);
+      //  console.log("props", this.props.holidays);
         let {FullYear,Month,date} = new Date().getLoactionTime();
         this.setState({
             activeDate:this.props.defaultDate
         });
         //初始化数据
-        this.props.DateChange(this.props.defaultDate,1);
+        this.props.DateChange(this.props.defaultDate,"init");
     }
 
     //年处理
@@ -88,13 +88,13 @@ class DH extends Component {
             show_date += parseInt(MONTH_DATE[(Month + show_Month - 1) % 12]);
             show_Month++;
         }
-        // console.log("show_Month",show_Month);
-        // 构造年月
+       // console.log("show_Month",show_Month);
+       // 构造年月
         let tepMnth = [];
         for(let j = 0; j < show_Month; j++) {
             tepMnth.push(new SelfYear((FullYear + ((Month + j)%12==0?((Month + j)/12-1):Math.floor((Month + j) / 12))),(Month + j) % 12 == 0 ? 12 : (Month + j) % 12,limitDate));
         }
-        // console.log(tepMnth)
+       // console.log(tepMnth)
         return tepMnth;
     }
 
@@ -104,22 +104,26 @@ class DH extends Component {
             return null
         }
         return (
-            <Scroll height={this.props.scrollHeight||"94%"}>
-                <div className={Styles["DH-month-main"]}>
-                    {
-                        monthArr.map((item,index) =>{
-                            //console.log("monthArr",monthArr);
-                            let str = `${item.FullYear}年${item.Month < 9 ? '0' + item.Month : item.Month}月`
-                            return (
-                                <div className={Styles["DH-month"]} key={index + "_/*"}>
-                                    <div className={new Date().getLoactionTime()["FullYear"]==item.FullYear&&item.Month==new Date().getLoactionTime()["Month"]?Styles[`DH-month-title`]:classNames(Styles[`DH-month-title`],Styles[`color3E3E3E`])}>{str}</div>
-                                    {this.renderDate(item,index)}
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            </Scroll>
+            <div className={classNames(Styles['scroll-content'],Styles["defaultHeight"])}>
+                <Scroll class={Styles['wrapper']}>
+                    <div className={Styles['scroll-cotent-bottom']}>
+                        <div className={Styles["DH-month-main"]}>
+                           {
+                                monthArr.map((item,index) =>{
+                                    //console.log("monthArr",monthArr);
+                                    let str = `${item.FullYear}年${item.Month < 9 ? '0' + item.Month : item.Month}月`
+                                    return (
+                                        <div className={Styles["DH-month"]} key={index + "_/*"}>
+                                            <div className={new Date().getLoactionTime()["FullYear"]==item.FullYear&&item.Month==new Date().getLoactionTime()["Month"]?Styles[`DH-month-title`]:classNames(Styles[`DH-month-title`],Styles[`color3E3E3E`])}>{str}</div>
+                                         {this.renderDate(item,index)}
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                </Scroll>
+            </div>
         )
     }
 
@@ -148,24 +152,29 @@ class DH extends Component {
                 {
                     item.date.map((day,daIndex) =>{
 
-                            let ClassStr,
-                                dataStr = `${FullYear}-${Month < 10 ? ('0' + Month) : Month}-${day.date < 10 ? '0' + day.date : day.date}`,
-                                allow = day.allow,
-                                classActiveStr = ""
-                            ;
-
+                        let ClassStr,
+                            dataStr = `${FullYear}-${Month < 10 ? ('0' + Month) : Month}-${day.date < 10 ? '0' + day.date : day.date}`,
+                            classActiveStr = "", _BreakSellDetial= '',
+                            allow = day.allow
+                        ;
+                            if(model !== 'common'){
+                                _BreakSellDetial =  this._BreakSellDetial(dataStr);
+                                allow = _BreakSellDetial.tag;
+                            }
+                           // console.log("allow", allow, _BreakSellDetial);
+                            //allow = day.allow,
                             allow && ( ClassStr = 'DH-month-date-allow');
                             this._algorithm(dataStr) && allow && (classActiveStr = 'DH-active-date');
                             let _BreakData = this._BreakData(dataStr);//allow = _BreakData.playContent;
                             return (
                                 <div className={classNames(Styles[ClassStr],{
                                 })} key={daIndex + '_day*/'}
-                                     onClick={allow ? _this.props.type=="common"&&this.toggleDate.bind(this,dataStr)||this.chooseSingle.bind(this, dataStr) : null}>
+                                     onClick={allow ? _this.props.type=="common"&&this.toggleDate.bind(this,dataStr)||this.chooseSingle.bind(this, dataStr,_BreakSellDetial) : null}>
                                     <div className={classNames(Styles[classActiveStr])}>
                                         <div className={Styles["tip"]}>{_BreakData.playContent}</div>
                                         {dataStr == new Date().format("yyyy-MM-dd")?<div className="cn_fontSize">今天</div>:<div className="en_fontSize">{day.date}</div>}
-                                        <div className={Styles["remark"]}>￥30</div>
-                                    </div>
+                                        <div className={Styles["remark"]}>{_BreakSellDetial.content&&`¥${_BreakSellDetial.content}`}</div>
+                                      </div>
                                 </div>
                             )
                         }
@@ -209,21 +218,22 @@ class DH extends Component {
         //let sortDate = temp.sort()
         //console.log(now_time)
     }
-    chooseSingle(date){
+    chooseSingle(date, tag){
         let {DateChange} = this.props, temp= [date];
 
         this.setState({
             "activeDate":temp
         },function(){
-            DateChange && DateChange(temp.sort());
+            DateChange && DateChange(temp.sort(),tag);
         })
+
     }
     //改变今天明天的显示文字
     _changeText(holiday){
         let _special = Date.specialDate;
-        // console.log(Date.specialDate,"outer/*8*")
+       // console.log(Date.specialDate,"outer/*8*")
         for(let i = 0,len = _special.length; i < len; i++) {
-            //  console.log(_special[i])
+          //  console.log(_special[i])
             if (_special[i].date == holiday.date){
                 Date.specialDate[i].text = holiday.name; //holiday.name;
             }
@@ -258,7 +268,22 @@ class DH extends Component {
 
         return {playContent};
     }
+    //显示与隐藏区域此时的sellDetail，争对景区门票而言
+    _BreakSellDetial(dataStr){
+        let {sellDetail} = this.props, _BreakSellDetial ={tag:false, content:''};
+        for(let i = 0,len = sellDetail.length; i < len; i++) {
+            if(dataStr == sellDetail[i].sellDate){
 
+                _BreakSellDetial = {
+                    tag:true,
+                    content:sellDetail[i].sellPrice
+                }
+                break;
+            }
+        }
+        //console.log("_BreakSellDetial", _BreakSellDetial);
+        return _BreakSellDetial;
+    }
     render(){
         let {title} = this.props;
         let {week,monthArr} = this.state;
@@ -266,7 +291,7 @@ class DH extends Component {
             <div className={classNames(Styles["DH-main"],Styles[this.props.defineClass])}>
                 {/*<div className="DH-title">{title}</div>*/}
                 {this.props.Header}
-                <div className={Styles["content"]}>
+                <div style={{"height":"100%"}}>
                     <div className={Styles["DH-week"]}>
                         {
                             week.map((item,index) =>{
@@ -277,8 +302,8 @@ class DH extends Component {
                         }
                     </div>
                     {this.props.tips}
-                    {this.renderMonth(monthArr)}
-                </div>
+                  {this.renderMonth(monthArr)}
+              </div>
             </div>
         )
     }

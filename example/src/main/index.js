@@ -1,9 +1,13 @@
 import React from  'react';
-import { Header, CardBox,LineBox }  from "../../../src/index"
+import { Header, CardBox,LineBox, Date }  from "../../../src/index"
 
 export  default class Main extends React.Component{
     goLastPage(){
 
+    }
+
+    getChangeDate(date){
+        console.log("date",date);
     }
 
     render(){
@@ -32,7 +36,20 @@ export  default class Main extends React.Component{
                 rightContent={<span>了解详情</span>}
 
             />
-            1111
+            <div>
+                <span>Date</span>
+                <div style={{"position":"relative", "height":"500px","overflow":"hidden"}}>
+                    <Date
+                        refs="getDate"
+                        defaultDate={["2018-10-24"]}
+                        chooseNumber="4"
+                        type="single"   //选择单个
+                        tips={null}
+                        model='common'
+                        DateChange={this.getChangeDate.bind(this)}
+                        defineClass='defineDateClass'/>
+                </div>
+            </div>
         </div>
     }
 }

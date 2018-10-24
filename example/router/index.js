@@ -13,9 +13,9 @@ import Home from "../src/main"
 //basename="/main"
 
 export default ()=>(<Router history={browserHistory} >
-        <switch >
+        <Switch >
             <Route path="/"  exact component={Home}></Route>
-        </switch>
+        </Switch>
     </Router>
 )
 

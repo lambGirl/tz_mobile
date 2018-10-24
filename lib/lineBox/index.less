@@ -1,0 +1,44 @@
+@import "../asset/css/var";
+//单行box显示
+.line-box{
+  width: 100%;
+  height: @base*100rem;
+  display: flex;
+  display:-webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 0 @base*30rem;
+  box-sizing: border-box;
+  >:first-child{
+    .line-leftBox-icon{
+      display: inline-block;
+      width: @base*4rem;
+      height: @base*28rem;
+      background: #37A0F1;
+      margin-right: 0.25rem;
+      vertical-align: middle;
+    }
+    span{
+      vertical-align: middle;
+    }
+  }
+  >:last-child{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    .rightIcon{
+      margin-left: @base*20rem;
+      display: inline-block;
+      width: @base*20rem;
+      height: @base*34rem;
+      background: url("../asset/img/chevron-right.png") no-repeat;
+      background-size: 100% 96%;
+      vertical-align: center;
+      background-position: center right;
+    }
+  }
+}
