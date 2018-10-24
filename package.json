@@ -1,6 +1,6 @@
 {
   "name": "tz_mobile",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "babel create es5 package",
   "main": "index.js",
   "directories": {
