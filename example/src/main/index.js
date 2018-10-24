@@ -36,6 +36,7 @@ export  default class Main extends React.Component{
                 rightContent={<span>了解详情</span>}
 
             />
+
             <div>
                 <span>Date</span>
                 <div style={{"position":"relative", "height":"500px","overflow":"hidden"}}>
