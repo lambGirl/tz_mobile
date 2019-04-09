@@ -21,7 +21,6 @@ const webpackConfigDev = {
   devServer: {
     contentBase: resolve('./views'),
     historyApiFallback: true,
-    hot: false,
     host: '0.0.0.0',
     port: PORT,
     proxy: {

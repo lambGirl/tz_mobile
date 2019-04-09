@@ -1,7 +1,10 @@
 import React from  'react';
 import { Header, CardBox,LineBox, Date }  from "../../../src/index"
+import {withRouter} from 'react-router-dom'
+import './index.less'
 
-export  default class Main extends React.Component{
+class Main extends React.Component{
+
     goLastPage(){
 
     }
@@ -11,46 +14,33 @@ export  default class Main extends React.Component{
     }
 
     render(){
-        return <div>
-            <Header
-                mode="common"
-                leftContent={ <div>111</div>}
-                leftIcon="white"
-                leftClick={this.goLastPage.bind(this)}
-            >
-                <div style={{"textAlign":'center','color':'#fff'}} >订单填写</div>
-            </Header>
-            <CardBox
-                CardBoxDefault={true}
-                cardTitleIcon={true}
-                cardTitle="使用凭证"
-                content={<div>XXXX</div>}
-                disabled={false}
-            />
-            <LineBox
-                leftIcon={true}
-                leftContent={<span>安全须知</span>}
-                rightIcon={true}
-                clickType='1'
-                clickTap={()=>{window.location.href='/article/article_pub?key=trip_safety_notice&server=queryProtocolDetail&temp_title=安全须知'}}
-                rightContent={<span>了解详情</span>}
-
-            />
-
-            <div>
-                <span>Date</span>
-                <div style={{"position":"relative", "height":"500px","overflow":"hidden"}}>
-                    <Date
-                        refs="getDate"
-                        defaultDate={["2018-10-24"]}
-                        chooseNumber="4"
-                        type="single"   //选择单个
-                        tips={null}
-                        model='common'
-                        DateChange={this.getChangeDate.bind(this)}
-                        defineClass='defineDateClass'/>
+        let { history } =  this.props;
+        return <div style={{"background":'#fcc','height':'100%'}}>
+                <div style={{"marginBottom":'10px'}}>
+                    <LineBox
+                    leftIcon={true}
+                    leftContent={<span>组件测试</span>}
+                    rightIcon={true}
+                    clickType='1'
+                    clickTap={()=>{history.push("/demo")}}
+                    rightContent={<span>了解详情</span>}
+                    />
                 </div>
+
+            <div style={{"marginBottom":'10px'}}>
+                <LineBox
+                    leftIcon={true}
+                    leftContent={<span>吸顶功能展示</span>}
+                    rightIcon={true}
+                    clickType='1'
+                    clickTap={()=>{history.push("/ceil")}}
+                    rightContent={<span>了解详情</span>}
+                />
             </div>
+
+
         </div>
     }
 }
+
+export default withRouter(Main)

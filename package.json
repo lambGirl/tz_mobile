@@ -9,7 +9,7 @@
   "scripts": {
     "build": "babel src --out-dir ./ --copy-files",
     "dev": "babel src --out-dir ./ --copy-files -w",
-    "example": "yarn build && node ./example.js",
+    "example": "webpack-dev-server --hot --config ./example/webpack.dev.config.js",
     "release": "yarn lint && yarn build && yarn publish"
   },
   "repository": {
@@ -19,6 +19,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.0.0-beta.54",
     "babel-preset-react": "^6.24.1",
+    "better-scroll": "^1.15.1",
     "classnames": "^2.2.6",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
