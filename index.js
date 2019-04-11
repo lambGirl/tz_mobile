@@ -15,7 +15,7 @@ Object.defineProperty(exports, "Date", {
     return _date.default;
   }
 });
-Object.defineProperty(exports, "easyScroll", {
+Object.defineProperty(exports, "EasyScroll", {
   enumerable: true,
   get: function get() {
     return _easyscroll.default;

@@ -65,7 +65,7 @@ const webpackConfigBase = {
         {
             test: /\.css/,
             use: [
-               "style-loader","css-loader?modules_"
+               "style-loader","css-loader?modules_[name]__[local]-[hash:base64:5]"
             ]
         },
         {
